@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тесты</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add('visible');
+        }, index * 300); // Задержка для каждого элемента
+      });
+    });
+  </script>
+
+</head>
+<body>
+<header>
+  <h1>Добро пожаловать на сайт тестов!</h1>
+  <nav>
+    <ul>
+      <li><a href="#education">Образовательные тесты</a></li>
+      <li><a href="#psychology">Психологические тесты</a></li>
+      <li><a href="#entertainment">Развлекательные тесты</a></li>
+      <li><a href="#professional">Профессиональные тесты</a></li>
+      <li><a href="#health">Здоровье и благополучие</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+
+  <section id="education" class="card">
+    <h2>Образовательные тесты</h2>
+    <p>Проверьте свои знания по различным предметам, включая математику, литературу и науку.</p>
+    <button onclick="location.href='education_test.html'">Перейти к разделам</button>
+  </section>
+
+  <section id="psychology" class="card">
+    <h2>Психологические тесты</h2>
+    <p>Узнайте больше о себе и своей личности. Пройдите тесты на определение типа личности и уровня стресса.</p>
+    <button onclick="location.href='psychology_test.html'">Перейти к разделам</button>
+  </section>
+
+  <section id="entertainment" class="card">
+    <h2>Развлекательные тесты</h2>
+    <p>Пройдите веселые викторины и узнайте, насколько хорошо вы знаете фильмы, музыку и культуру.</p>
+    <button onclick="location.href='entertainment_test.html'">Перейти к разделам</button>
+  </section>
+
+  <section id="professional" class="card">
+    <h2>Профессиональные тесты</h2>
+    <p>Определите свои сильные стороны для карьеры и получите советы по выбору профессии.</p>
+    <button onclick="location.href='professional_test.html'">Перейти к разделам</button>
+  </section>
+
+  <section id="health" class="card">
+    <h2>Здоровье и благополучие</h2>
+    <p>Проверьте уровень стресса и здоровья, узнайте, как улучшить свое самочувствие.</p>
+    <button onclick="location.href='health_test.html'">Перейти к разделам</button>
+  </section>
+
+</main>
+<footer>
+  <p>&copy; 2024 Тесты. Все права защищены.</p>
+</footer>
+</body>
+</html>

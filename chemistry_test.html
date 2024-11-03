@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест по химии</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Подключаем стили -->
+</head>
+<body>
+<header class="fade-in">
+  <h1>Тест по химии</h1>
+</header>
+<main class="fade-in">
+  <form id="quizForm">
+    <div id="quiz"></div> <!-- Контейнер для вопросов -->
+    <button type="button" onclick="submitQuiz()">Отправить</button>
+  </form>
+
+  <div id="result" style="display: none;">
+    <h3>Ваш результат: <span id="score"></span></h3>
+    <button onclick="window.location.reload()">Пройти еще раз</button>
+  </div>
+</main>
+<script src="questions_chemistry.js"></script> <!-- Подключаем вопросы -->
+<script>
+  // Функция для отображения вопросов
+  function displayQuestions(questions) {
+    const quizContainer = document.getElementById('quiz');
+    quizContainer.innerHTML = ''; // Очищаем контейнер перед добавлением вопросов
+
+    questions.forEach((q, index) => {
+      const questionElement = document.createElement('div');
+      questionElement.innerHTML = `
+          <h3>${index + 1}. ${q.question}</h3>
+          ${q.options.map((option, i) => `
+            <label>
+              <input type="radio" name="question${index}" value="${option}"> ${option}
+            </label>
+          `).join('')}
+        `;
+      quizContainer.appendChild(questionElement);
+    });
+  }
+
+  // Функция отправки теста
+  function submitQuiz() {
+    const totalQuestions = chemistryQuestions.length;
+    let score = 0;
+
+    // Подсчёт баллов
+    for (let i = 0; i < totalQuestions; i++) {
+      const selectedOption = document.querySelector(`input[name="question${i}"]:checked`);
+      if (selectedOption && selectedOption.value === chemistryQuestions[i].answer) {
+        score++;
+      }
+    }
+    document.getElementById('score').textContent = `${score} из ${totalQuestions}`;
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('quizForm').style.display = 'none'; // Скрываем тест
+
+    // Отправляем результат на сервер
+    const resultData = {
+      testName: "Тест по химии",
+      score: score,
+      totalQuestions: totalQuestions
+    };
+
+    fetch('http://localhost:3000/save-result', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(resultData)
+    })
+      .then(response => response.json())
+      .then(data => console.log(data.message))
+      .catch(error => console.error('Ошибка при отправке:', error));
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    displayQuestions(chemistryQuestions);
+  });
+</script>
+</body>
+</html>

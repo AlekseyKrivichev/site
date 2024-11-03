@@ -1,0 +1,26 @@
+<!-- result.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Результат теста</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="fade-in">
+  <h1>Ваш результат теста</h1>
+</header>
+<main class="fade-in">
+  <h3 id="testScore"></h3>
+  <button onclick="window.close()">Закрыть страницу</button>
+</main>
+<script>
+  // Получение и отображение результата из URL-параметров
+  const urlParams = new URLSearchParams(window.location.search);
+  const score = urlParams.get('score');
+  const total = urlParams.get('total');
+  document.getElementById('testScore').textContent = `Вы набрали ${score} из ${total}`;
+</script>
+</body>
+</html>
