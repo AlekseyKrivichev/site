@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест на знание фильмов</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Подключаем стили -->
+</head>
+<body>
+<header class="fade-in">
+  <h1>Тест на знание фильмов</h1>
+</header>
+<main class="fade-in">
+  <form id="quizForm">
+    <div id="quiz"></div> <!-- Контейнер для вопросов -->
+    <button type="button" onclick="submitQuiz()">Отправить</button>
+  </form>
+
+  <div id="result" style="display: none;">
+    <h3>Ваш результат: <span id="score"></span></h3>
+    <button onclick="window.location.reload()">Пройти еще раз</button>
+    <button onclick="goToHomePage()">На главную страницу</button>
+  </div>
+</main>
+<script src="questions_cinema.js"></script>
+<script>
+  function displayQuestions() {
+  const quizContainer = document.getElementById('quiz');
+  quizContainer.innerHTML = '';
+
+  cinemaQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.classList.add('question');
+
+    // Текст вопроса
+    const questionText = document.createElement('h3');
+    questionText.textContent = `${index + 1}. ${q.question}`;
+    questionDiv.appendChild(questionText);
+
+    // Картинка под вопросом
+    if (q.image) {
+      const img = document.createElement('img');
+      img.src = q.image;
+      img.alt = "Постер фильма";
+      img.onerror = function() {
+        console.error(`Изображение не найдено: ${q.image}`);
+      };
+      questionDiv.appendChild(img);
+    }
+
+    // Варианты ответов
+    q.options.forEach(option => {
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `question${index}`;
+      input.value = option;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(option));
+      questionDiv.appendChild(label);
+    });
+
+    quizContainer.appendChild(questionDiv);
+  });
+}
+
+// Отправка результатов
+function submitQuiz() {
+  let score = 0;
+  cinemaQuestions.forEach((q, index) => {
+    const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+    if (selectedOption && selectedOption.value === q.answer) {
+      score++;
+    }
+  });
+
+  document.getElementById('quizForm').style.display = 'none';
+  const resultDiv = document.getElementById('result');
+  resultDiv.style.display = 'block';
+  document.getElementById('score').textContent = `${score} из ${cinemaQuestions.length}`;
+}
+
+function goToHomePage() {
+  window.location.href = 'index.html';
+}
+
+document.addEventListener('DOMContentLoaded', displayQuestions);
+</script>
+</body>
+</html>
